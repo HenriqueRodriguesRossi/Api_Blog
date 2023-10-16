@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const speakeasy = require('speakeasy');
+const checkToken = require("../utils/checkToken")
 
 router.post("/new_user", async (req, res) => {
     try {
@@ -127,6 +128,26 @@ router.post("/login", async (req, res) => {
             mensagem: "Erro ao efetuar o login!"
         })
     }   
+})
+
+router.put("/activate-2FA", checkToken, async (req, res)=>{
+    const {email} = req.body
+    const checkEmail = await User.findOne({email})
+
+    if(!checkEmail){
+        return res.status(404).send({
+            mensagem: "Nenhum usuário com esse email encontrado!"
+        })
+    }else{
+        await User.findOneAndUpdate({
+            email, 
+            isTwoFactorEnabled: true
+        })
+
+        return res.status(200).send({
+            mensagem: "Autenticação de dois fatores ativada!"
+        })
+    }
 })
 
 module.exports = router
