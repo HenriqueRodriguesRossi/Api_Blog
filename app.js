@@ -9,6 +9,9 @@ app.use(express.urlencoded({extended: false}))
 const UserRouter = require("./controllers/UserController")
 app.use(UserRouter)
 
+const PostUser = require("./controllers/PostController")
+app.use(PostUser)
+
 app.listen(8080, ()=>{
     console.log("Servidor rodando na porta 8080!")
 })

@@ -96,7 +96,7 @@ router.post("/login", async (req, res) => {
         }
 
         // Verificar se a autenticação de dois fatores está ativada
-        if (user.isTwoFactorEnabled) {
+        if (checkEmail.isTwoFactorEnabled) {
             // Verificar o código OTP
             const isOTPValid = speakeasy.totp.verify({
                 secret: user.twoFactorSecret,
