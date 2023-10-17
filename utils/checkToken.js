@@ -5,7 +5,9 @@ function checkToken(req, res, next) {
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ msg: "Acesso negado!" });
+        return res.status(401).json({ 
+            mensagem: "Acesso negado!" 
+        });
     }
 
     try {
@@ -20,7 +22,9 @@ function checkToken(req, res, next) {
         // Continue para a próxima middleware
         next();
     } catch (err) {
-        return res.status(401).json({ msg: "Token inválido ou expirado!" });
+        return res.status(401).json({ 
+            mensagem: "Token inválido ou expirado!" 
+        });
     }
 }
 
