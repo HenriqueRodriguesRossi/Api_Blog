@@ -9,13 +9,13 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    comments:{
-        type: Number,
-        default: 0
-    },
     category: {
         type: String,
         required: true
+    },
+    comments:{
+        type: Number,
+        default: 0
     },
     user: { 
         type: mongoose.Schema.Types.ObjectId, ref: 'User' 

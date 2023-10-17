@@ -13,11 +13,11 @@ router.post("/new-post", checkToken, async (req, res) => {
             return res.status(400).send({
                 mensagem: "Título, conteúdo e categoria são obrigatórios!"
             })
-        } else if (title.length < 3) {
+        } else if (title < 3) {
             return res.status(422).send({
                 mensagem: "Título deve ter no mínimo 3 caracteres!"
             })
-        } else if (content.length < 10) {
+        } else if (content < 10) {
             return res.status(422).send({
                 mensagem: "Conteúdo deve ter no mínimo 10 caracteres!"
             })
@@ -26,6 +26,7 @@ router.post("/new-post", checkToken, async (req, res) => {
         const newPost = new Posts({
             title,
             content,
+            category,
             user: user_id
         })
 
@@ -104,5 +105,34 @@ router.get("/find-post", checkToken, async (req, res) => {
     }
 });
 
+router.get("/find-by-category", checkToken, async (req, res)=>{
+    try{
+        const {category} = req.body
+
+        if(!category){
+            return res.status(400).send({
+                mensagem: "Por favor, digite uma categoria!"
+            })
+        }
+    
+        const findCategory = await Posts.find({category})
+    
+        if(!findCategory || findCategory.length === 0 || findCategory == {}){
+            return res.status(404).send({
+                mensagem: "Nenhum post encontrado!"
+            })
+        }else{
+            return res.status(200).send({
+                resultado: findCategory
+            })
+        }
+    }catch(error){
+        console.log(error)
+        return res.status(500).send({
+            mensagem: "Erro ao retornar os posts!"
+        })
+    }
+    
+})
 
 module.exports = router
