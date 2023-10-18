@@ -12,6 +12,9 @@ app.use(UserRouter)
 const PostRouter = require("./controllers/PostController")
 app.use(PostRouter)
 
+const CommentRouter = require("./controllers/CommentsController")
+app.use(CommentRouter)
+
 app.listen(8080, ()=>{
     console.log("Servidor rodando na porta 8080!")
 })
